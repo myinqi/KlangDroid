@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+<title id="title">Raven Vault</title>
+<desc id="desc">An elegant four-spoke safe wheel framing a smooth raven profile. Transparent vector artwork.</desc>
+<!-- Edit these two colors to recolor the complete logo. -->
+<style>
+.wheel {fill:none;stroke:#A64DFF;}
+.raven {fill:#A64DFF;}
+</style>
+<defs>
+<mask id="cutouts" maskUnits="userSpaceOnUse" x="280" y="280" width="480" height="470">
+<rect x="280" y="280" width="480" height="470" fill="white"/>
+<path d="M546 428 Q562 419 580 428 Q569 445 554 439 Z" fill="black"/>
+<path d="M595 481 Q647 484 689 498 Q648 492 593 492 Z" fill="black"/>
+<path d="M400 553 Q414 603 464 632 Q421 622 400 591 Z" fill="black"/>
+</mask>
+</defs>
+<g id="safe-wheel" class="wheel" stroke-linecap="butt">
+<circle cx="512" cy="512" r="398" stroke-width="46"/>
+<circle cx="512" cy="512" r="232" stroke-width="18"/>
+<path d="M231 231 L348 348 M676 348 L793 231 M676 676 L793 793 M348 676 L231 793" stroke-width="42"/>
+</g>
+<g transform="translate(72 67) scale(0.86)"><g id="raven" class="raven" mask="url(#cutouts)">
+<path d="M351 681
+C381 644 385 613 385 568
+C383 529 391 488 410 458
+C416 445 417 428 428 409
+C447 375 484 360 519 367
+C552 371 580 392 593 417
+C600 431 607 443 625 450
+C657 459 694 478 715 502
+C684 496 659 501 630 511
+C619 515 608 516 595 514
+C588 542 570 563 546 581
+C519 602 504 632 512 656
+C517 673 528 688 539 699
+C518 696 503 687 491 675
+C486 692 486 707 490 717
+C470 711 452 699 441 685
+C433 698 426 709 413 720
+C408 702 405 690 397 677
+C382 683 367 685 351 681 Z"/>
+</g></g>
+</svg>

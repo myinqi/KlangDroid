@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Quelle: assets/Raven-Vault-Logo.svg. Weiß, damit die App die Farbe des Themas darüberlegt. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M114,512 A398,398 0 1,1 910,512 A398,398 0 1,1 114,512"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="46" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M280,512 A232,232 0 1,1 744,512 A232,232 0 1,1 280,512"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="18" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M231,231 L348,348 M676,348 L793,231 M676,676 L793,793 M348,676 L231,793"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="42" />
+    <group
+        android:scaleX="0.86"
+        android:scaleY="0.86"
+        android:translateX="72"
+        android:translateY="67">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:fillType="evenOdd"
+            android:pathData="M351,681 C381,644 385,613 385,568 C383,529 391,488 410,458 C416,445 417,428 428,409 C447,375 484,360 519,367 C552,371 580,392 593,417 C600,431 607,443 625,450 C657,459 694,478 715,502 C684,496 659,501 630,511 C619,515 608,516 595,514 C588,542 570,563 546,581 C519,602 504,632 512,656 C517,673 528,688 539,699 C518,696 503,687 491,675 C486,692 486,707 490,717 C470,711 452,699 441,685 C433,698 426,709 413,720 C408,702 405,690 397,677 C382,683 367,685 351,681 Z M546,428 Q562,419 580,428 Q569,445 554,439 Z M595,481 Q647,484 689,498 Q648,492 593,492 Z M400,553 Q414,603 464,632 Q421,622 400,591 Z" />
+    </group>
+</vector>
