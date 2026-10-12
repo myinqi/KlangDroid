@@ -20,12 +20,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ViewList
+import androidx.compose.material.icons.rounded.BubbleChart
 import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.Movie
 import androidx.compose.material.icons.rounded.Refresh
@@ -54,6 +56,7 @@ import veil.raven.klangdroid.data.Lied
 import veil.raven.klangdroid.data.Playlist
 import veil.raven.klangdroid.data.Sortierung
 import veil.raven.klangdroid.data.Zeile
+import veil.raven.klangdroid.data.BibliothekAnsicht
 import veil.raven.klangdroid.data.bildDatei
 import veil.raven.klangdroid.data.dauerText
 import veil.raven.klangdroid.data.hatBewegtbild
@@ -103,7 +106,8 @@ fun MediathekAnsicht(
             style = MaterialThemeBody(),
         )
         Spacer(Modifier.height(12.dp))
-        OutlinedTextField(
+        val schaum = modell.ansicht == BibliothekAnsicht.SCHAUM && modell.playlistId != ""
+        if (!schaum) OutlinedTextField(
             value = modell.suche,
             onValueChange = { modell.suche = it },
             modifier = Modifier.fillMaxWidth(),
@@ -115,8 +119,8 @@ fun MediathekAnsicht(
             keyboardActions = KeyboardActions(onSearch = { focus.clearFocus() }),
             colors = feldFarben(farben),
         )
-        Spacer(Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (!schaum) Spacer(Modifier.height(8.dp))
+        if (!schaum) Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             WahlChip("Mit Ton", modell.nurTon, farben) { modell.nurTon = !modell.nurTon }
             WahlChip("Bewegtbild", modell.nurVideo, farben) { modell.nurVideo = !modell.nurVideo }
             WahlChip("Playlists", modell.playlistId == "" , farben) {
@@ -126,16 +130,20 @@ fun MediathekAnsicht(
         Spacer(Modifier.height(4.dp))
         if (modell.playlistId != "") {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Sortierung.entries.forEach { art ->
-                    WahlChip(art.label, modell.sortierung == art, farben) { modell.sortierung = art }
+                if (!schaum) {
+                    Sortierung.entries.forEach { art ->
+                        WahlChip(art.label, modell.sortierung == art, farben) { modell.sortierung = art }
+                    }
                 }
                 Spacer(Modifier.weight(1f))
-                IconButton(onClick = { modell.kacheln = !modell.kacheln }) {
-                    Icon(
-                        if (modell.kacheln) Icons.AutoMirrored.Rounded.ViewList else Icons.Rounded.GridView,
-                        contentDescription = if (modell.kacheln) "Listenansicht" else "Kachelansicht",
-                        tint = farben.akzent,
-                    )
+                AnsichtKnopf(modell.ansicht == BibliothekAnsicht.KACHELN, "Kachelansicht", farben, Icons.Rounded.GridView) {
+                    modell.ansicht = BibliothekAnsicht.KACHELN
+                }
+                AnsichtKnopf(modell.ansicht == BibliothekAnsicht.LISTE, "Listenansicht", farben, Icons.AutoMirrored.Rounded.ViewList) {
+                    modell.ansicht = BibliothekAnsicht.LISTE
+                }
+                AnsichtKnopf(modell.ansicht == BibliothekAnsicht.SCHAUM, "Klangschaum", farben, Icons.Rounded.BubbleChart) {
+                    modell.ansicht = BibliothekAnsicht.SCHAUM
                 }
             }
         }
@@ -146,6 +154,7 @@ fun MediathekAnsicht(
             }
             modell.bestand.fehler != null && index == null -> Fehlerkasten(modell, farben)
             modell.playlistId == "" -> PlaylistListe(modell, farben, index?.playlists.orEmpty())
+            modell.ansicht == BibliothekAnsicht.SCHAUM -> SchaumAnsicht(modell, farben, spielId, tonLaeuft, Modifier.weight(1f).fillMaxWidth())
             else -> TitelRaster(modell, farben, spielId, tonLaeuft)
         }
     }
@@ -166,7 +175,25 @@ private fun feldFarben(farben: KlangFarben) = OutlinedTextFieldDefaults.colors(
 )
 
 @Composable
-private fun WahlChip(text: String, an: Boolean, farben: KlangFarben, onClick: () -> Unit) {
+private fun AnsichtKnopf(
+    an: Boolean,
+    beschreibung: String,
+    farben: KlangFarben,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit,
+) {
+    IconButton(onClick = onClick) {
+        Box(
+            Modifier.size(36.dp).clip(CircleShape).background(if (an) farben.akzent.copy(alpha = 0.22f) else farben.flaeche),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(icon, contentDescription = beschreibung, tint = if (an) farben.akzent else farben.schwach)
+        }
+    }
+}
+
+@Composable
+internal fun WahlChip(text: String, an: Boolean, farben: KlangFarben, onClick: () -> Unit) {
     FilterChip(
         selected = an,
         onClick = onClick,
@@ -214,7 +241,7 @@ private fun TitelRaster(modell: KlangModell, farben: KlangFarben, spielId: Strin
         Text("Nichts passt auf diese Suche.", color = farben.schwach, modifier = Modifier.padding(top = 24.dp))
         return
     }
-    if (!modell.kacheln) {
+    if (modell.ansicht == BibliothekAnsicht.LISTE) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(bottom = 18.dp, top = 6.dp),

@@ -22,13 +22,15 @@ class KlangApi(
     data class Bestand(
         val index: IndexAntwort,
         val eigen: Map<String, EigenKunst>,
+        val karte: KarteAntwort? = null,
     )
 
     suspend fun laden(basis: String): Bestand = withContext(Dispatchers.IO) {
         val index = holen(basis, "api/index", IndexAntwort.serializer())
         val eigen = runCatching { holen(basis, "api/eigen-artwork", EigenAntwort.serializer()).songs }
             .getOrDefault(emptyMap())
-        Bestand(index, eigen)
+        val karte = runCatching { holen(basis, "api/karte", KarteAntwort.serializer()) }.getOrNull()
+        Bestand(index, eigen, karte)
     }
 
     suspend fun liedtext(basis: String, id: String): LiedtextAntwort = withContext(Dispatchers.IO) {

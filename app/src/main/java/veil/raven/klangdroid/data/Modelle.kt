@@ -36,6 +36,7 @@ data class Lied(
     val hatLyrics: Boolean = false,
     val plays: Int = 0,
     val likes: Int = 0,
+    val kommentare: Int = 0,
     val modell: String? = null,
     val modellRoh: String? = null,
     val stilPrompt: String? = null,
@@ -112,3 +113,28 @@ enum class Sortierung(val label: String) {
     TITEL("Titel"),
     DAUER("Länge"),
 }
+
+enum class BibliothekAnsicht { KACHELN, LISTE, SCHAUM }
+
+@Serializable
+data class KarteAntwort(
+    val verfahren: String? = null,
+    val gruppen: List<KarteGruppe> = emptyList(),
+    val songs: List<KarteLied> = emptyList(),
+)
+
+@Serializable
+data class KarteGruppe(
+    val nr: Int = 0,
+    val name: String = "",
+)
+
+@Serializable
+data class KarteLied(
+    val id: String,
+    val x: Double = 0.0,
+    val y: Double = 0.0,
+    val umap: List<Double> = emptyList(),
+    val gruppe: Int? = null,
+    val genre: String? = null,
+)

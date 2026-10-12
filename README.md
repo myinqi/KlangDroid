@@ -21,6 +21,7 @@ App.
   oder eine eigene Fassung).
 - Bewegtbild als Albumart: `artwork.mp4` oder das jüngste eigene Video
   (`eigen.mp4`, `eigen-2.mp4`, …), stumm und in Schleife, solange die Musik läuft.
+- Klangschaum: die Fläche eines Titels ist sein Anteil an Herzen, Abrufen, Kommentaren, Resonanz, Länge, Hörzeit oder Anzahl, gegliedert nach Stilgruppe, Modell oder Zeit. Die gebogenen Zellen legt Caspar Davids foamtree. Ein Tipp spielt den Titel, der laufende wabert. Das gelegte Bild bleibt auf dem Gerät. Dieselbe Ansicht öffnet sich danach sofort. Der Knopf **Aktualisieren** holt den Katalog neu. Haben sich die Zahlen oder die Karte geändert, wird der Schaum neu gelegt und wieder gespeichert. Unveränderte Zahlen bleiben liegen.
 - Farben wie im KlangTresor. **Rabe** ist die Voreinstellung (Violett über allem).
   Dazu Haus (Orange nach Magenta), Cover (die Fläche folgt dem laufenden Stück),
   Unbunt, und die Klangraum-Paletten Nebel, Eisnebel, Polarlicht, Mondlicht,
@@ -33,8 +34,16 @@ Begleit-App soll sich genauso weitergeben, ändern und forken lassen. Die einzig
 Bedingung: der Urhebervermerk reist mit.
 
 Der KlangTresor selbst steht unter seiner eigenen MIT-Lizenz und bleibt das
-Projekt von Caspar David. KlangDroid kopiert seinen Code nicht, sie redet über
-die HTTP-Schnittstelle mit ihm.
+Projekt von Caspar David. Katalog, Ton und Bilder holt KlangDroid über die
+HTTP-Schnittstelle.
+
+Eine Ausnahme ist die Schaum-Engine. `app/src/main/assets/klangschaum/foamtree.js`
+ist Caspar Davids foamtree, MIT, Copyright (c) 2026 Caspar_D. Übernommen aus
+dem KlangTresor (`web/klangschaum/foamtree.js`); dort steht sie seit dem
+06.10.2026, kopiert aus seinem foam-lab. In der App sind die `export`-Zeilen
+entfernt, damit die Datei in einer WebView läuft, und es hängt eine kurze
+Brücke `legen` an. Der Löser selbst ist unverändert. Änderungen an der Engine
+gehören in Caspars Quelle, nicht nur in diese Kopie.
 
 ## Verbinden
 
